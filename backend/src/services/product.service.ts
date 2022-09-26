@@ -1,9 +1,32 @@
+// Libraries
+import axios from 'axios'
+
+// Types
+import { Product } from '@/types/products'
+
 export class ProductsService {
-  constructor
+  private url: string
+  static instance: ProductsService | null = null
 
-  create() {}
+  constructor() {
+    this.url = process.env.API_URL || 'https://api.escuelajs.co/api/v1'
+  }
 
-  find() {}
+  static start() {
+    if (!this.instance) {
+      this.instance = new ProductsService()
+    }
+
+    console.log('Creating a new instance of ProductsService')
+
+    return this.instance
+  }
+
+  async find(limit: number = 10, offset: number = 0) {
+    return axios.get<Array<Product>>(
+      `${this.url}/products?limit=${limit}&offset=${offset}`,
+    )
+  }
 
   findOne() {}
 
