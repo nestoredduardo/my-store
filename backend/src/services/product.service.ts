@@ -22,7 +22,7 @@ export class ProductsService {
     return this.instance
   }
 
-  async find(limit: number = 10, offset: number = 0) {
+  async find(limit: number, offset: number) {
     return axios.get<Array<Product>>(
       `${this.url}/products?limit=${limit}&offset=${offset}`,
     )

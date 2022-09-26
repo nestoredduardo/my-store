@@ -13,14 +13,14 @@ router.get('/', async (req, res) => {
     const { limit, offset } = req.query
 
     const { data: products } = await productsService.find(
-      Number(limit),
-      Number(offset),
+      Number(limit) || 10,
+      Number(offset) || 0,
     )
-
-    console.log(products)
 
     res.status(200).json(products)
   } catch (error) {
+    console.log('Get Products Error: ', error)
+
     res.status(500).json({
       message: 'Internal Server Error',
     })
