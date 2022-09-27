@@ -6,6 +6,9 @@ import 'module-alias/register'
 // Routes
 import routerApi from '@/routes/index'
 
+// Middlewares
+import { logError, errorHandler } from '@/middlewares/error.handler'
+
 dotenv.config()
 const app = express()
 
@@ -18,6 +21,9 @@ app.get('/', (req, res) => {
 })
 
 routerApi(app)
+
+app.use(logError)
+app.use(errorHandler)
 
 app.listen(PORT, () => {
   console.log(`Example app listening at http://localhost:${PORT}`)
