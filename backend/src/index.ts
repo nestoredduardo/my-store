@@ -1,7 +1,6 @@
 // Libraries
 import express from 'express'
 import dotenv from 'dotenv'
-import 'module-alias/register'
 
 // Routes
 import routerApi from '@/routes/index'
