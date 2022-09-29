@@ -8,3 +8,5 @@ export interface Product {
   category: Category
   images: string[]
 }
+
+export interface UpdateProductDTO extends Omit<Partial<Product>, 'id'> {}

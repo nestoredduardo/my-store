@@ -2,7 +2,7 @@
 import axios from 'axios'
 
 // Types
-import { Product } from '@/types/products'
+import { Product, UpdateProductDTO } from '@/types/products'
 
 export class ProductsService {
   private url: string
@@ -28,9 +28,13 @@ export class ProductsService {
     )
   }
 
-  findOne() {}
+  async findOne(id: Product['id']) {
+    return axios.get<Product>(`${this.url}/products/${id}`)
+  }
 
-  update() {}
+  async update(id: Product['id'], changes: UpdateProductDTO) {
+    return axios.put<Product>(`${this.url}/products/${id}`, changes)
+  }
 
   delete() {}
 }

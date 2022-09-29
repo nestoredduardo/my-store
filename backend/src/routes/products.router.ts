@@ -1,5 +1,6 @@
 // Libraries
 import express from 'express'
+import boom from '@hapi/boom'
 
 // Services
 import { ProductsService } from '@/services/product.service'
@@ -8,7 +9,7 @@ const router = express.Router()
 
 const productsService = ProductsService.start()
 
-router.get('/', async (req, res) => {
+router.get('/', async (req, res, next) => {
   try {
     const { limit, offset } = req.query
 
@@ -19,11 +20,32 @@ router.get('/', async (req, res) => {
 
     res.status(200).json(products)
   } catch (error) {
-    console.log('Get Products Error: ', error)
+    throw boom.notFound('Products not found')
+  }
+})
 
-    res.status(500).json({
-      message: 'Internal Server Error',
-    })
+router.get('/:id', async (req, res, next) => {
+  try {
+    const { id } = req.params
+
+    const { data: product } = await productsService.findOne(Number(id))
+
+    res.status(200).json(product)
+  } catch (error) {
+    next(error)
+  }
+})
+
+router.put('/:id', async (req, res, next) => {
+  try {
+    const { id } = req.params
+    const changes = req.body
+
+    const { data: product } = await productsService.update(Number(id), changes)
+
+    res.status(200).json(product)
+  } catch (error) {
+    throw boom.badImplementation('Error updating product')
   }
 })
 

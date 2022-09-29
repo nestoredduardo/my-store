@@ -6,7 +6,11 @@ import dotenv from 'dotenv'
 import routerApi from '@/routes/index'
 
 // Middlewares
-import { logError, errorHandler } from '@/middlewares/error.handler'
+import {
+  logError,
+  errorHandler,
+  boomErrorHandler,
+} from '@/middlewares/error.handler'
 
 dotenv.config()
 const app = express()
@@ -22,6 +26,7 @@ app.get('/', (req, res) => {
 routerApi(app)
 
 app.use(logError)
+app.use(boomErrorHandler)
 app.use(errorHandler)
 
 app.listen(PORT, () => {
